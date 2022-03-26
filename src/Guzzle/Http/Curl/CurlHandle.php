@@ -226,14 +226,14 @@ class CurlHandle
     /**
      * Construct a new CurlHandle object that wraps a cURL handle
      *
-     * @param resource         $handle  Configured cURL handle resource
+     * @param \CurlHandle         $handle  Configured cURL handle resource
      * @param Collection|array $options Curl options to use with the handle
      *
      * @throws InvalidArgumentException
      */
     public function __construct($handle, $options)
     {
-        if (!is_resource($handle)) {
+        if (!($handle instanceof \CurlHandle)) {
             throw new InvalidArgumentException('Invalid handle provided');
         }
         if (is_array($options)) {
@@ -259,7 +259,7 @@ class CurlHandle
      */
     public function close()
     {
-        if (is_resource($this->handle)) {
+        if ($this->handle instanceof \CurlHandle) {
             curl_close($this->handle);
         }
         $this->handle = null;
@@ -272,7 +272,7 @@ class CurlHandle
      */
     public function isAvailable()
     {
-        return is_resource($this->handle);
+        return $this->handle instanceof \CurlHandle;
     }
 
     /**
@@ -322,7 +322,7 @@ class CurlHandle
      */
     public function getInfo($option = null)
     {
-        if (!is_resource($this->handle)) {
+        if (!($this->handle instanceof \CurlHandle)) {
             return null;
         }
 
